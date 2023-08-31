@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page with CAPTCHA</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function generateCaptcha() {
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            var captcha = '';
+            for (var i = 0; i < 6; i++) {
+                var randomIndex = Math.floor(Math.random() * characters.length);
+                captcha += characters.charAt(randomIndex);
+            }
+            return captcha;
+        }
+
+        function validateCaptcha() {
+            var userCaptcha = document.getElementById('captcha').value;
+            var captchaContainer = document.getElementById('captcha-container');
+            var captcha = captchaContainer.getAttribute('data-captcha');
+
+            if (userCaptcha !== captcha) {
+                var errorElement = document.createElement('p');
+                errorElement.className = 'error-message';
+                errorElement.textContent = 'Incorrect CAPTCHA. Please try again.';
+                captchaContainer.appendChild(errorElement);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form action="#" method="post">
+            <div class="input-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="input-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="input-group">
+                <label for="captcha">Enter the code:</label>
+                <div id="captcha-container" data-captcha=""></div>
+                <input type="text" id="captcha" name="captcha" required>
+            </div>
+            <button class="btn" type="button" onclick="validateCaptcha()">Submit</button>
+        </form>
+        <script>
+            var captchaContainer = document.getElementById('captcha-container');
+            var captcha = generateCaptcha();
+            captchaContainer.setAttribute('data-captcha', captcha);
+            captchaContainer.textContent = 'Captcha: ' + captcha;
+        </script>
+    </div>
+</body>
+</html>
